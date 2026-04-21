@@ -3,13 +3,11 @@ description: Documentação técnica e tutoriais de infraestrutura de redes e nu
 remote_theme: just-the-docs/just-the-docs
 
 # Configurações do Site
-color_scheme: light # Você pode usar 'light' se preferir fundo branco
-logo: "https://github.com/nicolasbrandaoc.png" # Isso pega sua foto do GitHub como logo
+color_scheme: light 
 
-# Links rápidos no topo direito
+
 aux_links:
-  "LinkedIn": "https://linkedin.com/in/nícolas-brandão-b6471a237"
+  "LinkedIn": "https://www.inkedin.com/in/nícolas-brandão-b6471a237"
   "GitHub": "https://github.com/nicolasbrandaoc"
 
-# Ativa a busca interna
 search_enabled: true
