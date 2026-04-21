@@ -1,0 +1,15 @@
+title: Nicolas Brandão | Docs
+description: Documentação técnica e tutoriais de infraestrutura de redes e nuvem.
+remote_theme: just-the-docs/just-the-docs
+
+# Configurações do Site
+color_scheme: dark # Você pode usar 'light' se preferir fundo branco
+logo: "https://github.com/nicolasbrandao.png" # Isso pega sua foto do GitHub como logo
+
+# Links rápidos no topo direito
+aux_links:
+  "LinkedIn": "www.linkedin.com/in/nícolas-brandão-b6471a237"
+  "GitHub": "https://github.com/nicolasbrandaoc"
+
+# Ativa a busca interna
+search_enabled: true
