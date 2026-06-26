@@ -1,0 +1,87 @@
+---
+---
+
+@use 'abstracts/variables' with (
+  $theme: '{{ site.theme_mode }}'
+);
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* Tokyo Night custom palette */
+
+[data-bs-theme='dark'] {
+  --main-bg: #1a1b26;
+  --sidebar-bg: #16161e;
+  --topbar-bg: rgb(26 27 38 / 80%);
+  --card-header-bg: #1f2030;
+  --menu-bg: #1f2030;
+  --button-bg: #1f2030;
+
+  --main-border-color: #2a2b3d;
+  --sidebar-border-color: #2a2b3d;
+  --btn-border-color: #2a2b3d;
+  --search-border-color: #2a2b3d;
+  --menu-border-color: #3b3c52;
+  --blockquote-border-color: #3b3c52;
+
+  --text-color: #a9b1d6;
+  --heading-color: #c0caf5;
+  --text-muted-color: #565f89;
+  --text-muted-highlight-color: #787c99;
+  --label-color: #787c99;
+  --blockquote-text-color: #565f89;
+
+  --site-title-color: #c0caf5;
+  --site-subtitle-color: #565f89;
+  --sidebar-muted-color: #565f89;
+  --sidebar-active-color: #7dcfff;
+  --sidebar-hover-bg: #1f2030;
+  --sidebar-btn-bg: #1f2030;
+  --sidebar-btn-color: #565f89;
+  --avatar-border-color: #3b4261;
+
+  --link-color: #7dcfff;
+  --link-underline-color: #3b4261;
+  --toc-highlight: #7dcfff;
+  --checkbox-checked-color: #7dcfff;
+
+  --topbar-text-color: #a9b1d6;
+  --search-icon-color: #565f89;
+  --input-focus-border-color: #7dcfff;
+
+  --tag-hover: #1f2030;
+  --btn-patinator-text-color: #a9b1d6;
+  --btn-paginator-hover-color: #1f2030;
+
+  --tb-odd-bg: #1e1f2e;
+  --tb-even-bg: #1a1b26;
+  --tb-border-color: #2a2b3d;
+
+  --mask-bg: #414868;
+  --img-bg: radial-gradient(circle, #1f2030 0%, #1a1b26 100%);
+  --menu-shadow-color: rgb(0 0 0 / 50%);
+  --menu-active-color: #c0caf5;
+  --menu-highlight-bg: rgb(122 162 247 / 10%);
+  --post-list-text-color: #a9b1d6;
+  --toc-popup-border-color: #2a2b3d;
+}
+
+[data-bs-theme='light'] {
+  --sidebar-bg: #1a1b26;
+  --sidebar-border-color: #2a2b3d;
+  --site-title-color: #c0caf5;
+  --site-subtitle-color: #7982a9;
+  --sidebar-muted-color: #7982a9;
+  --sidebar-active-color: #7dcfff;
+  --sidebar-hover-bg: #1f2030;
+  --sidebar-btn-bg: #1f2030;
+  --sidebar-btn-color: #565f89;
+  --avatar-border-color: #3b4261;
+  --link-color: #2563eb;
+  --toc-highlight: #2563eb;
+}
