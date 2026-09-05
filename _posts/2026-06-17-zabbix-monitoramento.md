@@ -1,51 +1,51 @@
 ---
-title: "Monitoramento de infraestrutura com Zabbix"
+title: "Infrastructure monitoring with Zabbix"
 date: 2026-06-17 00:00:00 -0300
-categories: [Monitoramento, Infraestrutura]
-tags: [zabbix, monitoramento, snmp, alertas]
+categories: [Monitoring, Infrastructure]
+tags: [zabbix, monitoring, snmp, alerts]
 ---
 
-Zabbix é uma plataforma de monitoramento open-source madura e escalável. Monitora servidores, switches, roteadores, aplicações e serviços com coleta via agente, SNMP, ICMP, HTTP e muito mais.
+Zabbix is a mature and scalable open-source monitoring platform. It monitors servers, switches, routers, applications and services using agent, SNMP, ICMP, HTTP and much more.
 
-## Arquitetura
-
-```
-[Dispositivos] → [Zabbix Agent / SNMP] → [Zabbix Server] → [Banco de dados] → [Frontend Web]
-```
-
-Para ambientes distribuídos, o Zabbix Proxy coleta dados localmente e envia ao servidor central, reduzindo latência e consumo de banda.
-
-## Monitoramento via SNMP
-
-Ideal para equipamentos de rede (switches, roteadores, APs):
+## Architecture
 
 ```
-1. Ativar SNMP no dispositivo
-2. No Zabbix: adicionar host com interface SNMP
-3. Aplicar template (ex: "Cisco IOS SNMP")
-4. Configurar community string
+[Devices] → [Zabbix Agent / SNMP] → [Zabbix Server] → [Database] → [Web Frontend]
 ```
 
-## Criando um item personalizado
+For distributed environments, the Zabbix Proxy collects data locally and sends it to the central server, reducing latency and bandwidth consumption.
+
+## SNMP monitoring
+
+Ideal for network equipment (switches, routers, APs):
 
 ```
-Name: Uso de CPU
+1. Enable SNMP on the device
+2. In Zabbix: add host with SNMP interface
+3. Apply template (e.g. "Cisco IOS SNMP")
+4. Configure community string
+```
+
+## Creating a custom item
+
+```
+Name: CPU Usage
 Type: Zabbix agent
 Key: system.cpu.util[,idle]
 Type of information: Numeric (float)
 Update interval: 60s
 ```
 
-## Trigger de alerta
+## Alert trigger
 
 ```
-Expression: avg(/servidor01/system.cpu.util[,idle],5m) < 20
+Expression: avg(/server01/system.cpu.util[,idle],5m) < 20
 Severity: High
-Message: "CPU acima de 80% nos últimos 5 minutos"
+Message: "CPU above 80% for the last 5 minutes"
 ```
 
-## Ações e notificações
+## Actions and notifications
 
-O Zabbix suporta notificações por e-mail, Telegram, Slack, PagerDuty e scripts customizados. Configuro sempre um script de Telegram para alertas críticos — chegam no celular em segundos.
+Zabbix supports notifications via email, Telegram, Slack, PagerDuty and custom scripts. I always configure a Telegram script for critical alerts — they arrive on my phone within seconds.
 
-Zabbix é minha ferramenta padrão de monitoramento há anos. Com templates da comunidade, fica funcional em poucos minutos para a maioria dos dispositivos.
+Zabbix has been my standard monitoring tool for years. With community templates, it's up and running in minutes for most devices.

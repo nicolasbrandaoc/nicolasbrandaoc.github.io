@@ -1,37 +1,37 @@
 ---
-title: "pfSense: montando um firewall profissional com hardware acessível"
+title: "pfSense: building a professional firewall with affordable hardware"
 date: 2026-06-08 00:00:00 -0300
-categories: [Segurança, Firewall]
-tags: [pfsense, firewall, segurança]
+categories: [Security, Firewall]
+tags: [pfsense, firewall, security]
 ---
 
-pfSense é uma distribuição FreeBSD voltada para firewall e roteamento. Gratuito, open-source e com interface web intuitiva, substitui soluções comerciais caras em ambientes de pequeno e médio porte.
+pfSense is a FreeBSD-based distribution designed for firewalling and routing. Free, open-source and with an intuitive web interface, it replaces expensive commercial solutions in small and medium-sized environments.
 
-## Por que pfSense?
+## Why pfSense?
 
-- Firewall stateful com regras granulares
-- Suporte nativo a VPN (IPsec, OpenVPN, WireGuard)
-- IDS/IPS com Suricata ou Snort
-- Traffic shaping e QoS
-- Alta disponibilidade com CARP
+- Stateful firewall with granular rules
+- Native VPN support (IPsec, OpenVPN, WireGuard)
+- IDS/IPS with Suricata or Snort
+- Traffic shaping and QoS
+- High availability with CARP
 
-## Requisitos mínimos de hardware
+## Minimum hardware requirements
 
-| Componente | Mínimo | Recomendado |
+| Component | Minimum | Recommended |
 |---|---|---|
 | CPU | 500 MHz | 1 GHz+ |
 | RAM | 512 MB | 2 GB+ |
 | Interfaces | 2 NICs | 3+ NICs |
-| Armazenamento | 4 GB | 16 GB SSD |
+| Storage | 4 GB | 16 GB SSD |
 
-## Estrutura de regras
+## Rule structure
 
-As regras no pfSense são avaliadas de cima para baixo, por interface. A lógica padrão é:
+Rules in pfSense are evaluated top-down, per interface. The default logic is:
 
-1. Tráfego LAN → WAN: **permitido por padrão**
-2. Tráfego WAN → LAN: **bloqueado por padrão**
+1. LAN → WAN traffic: **allowed by default**
+2. WAN → LAN traffic: **blocked by default**
 
-Exemplo de regra para bloquear acesso de uma VLAN à outra:
+Example rule to block access from one VLAN to another:
 
 ```
 Action: Block
@@ -40,8 +40,8 @@ Source: VLAN10 net
 Destination: VLAN20 net
 ```
 
-## Dica de segurança
+## Security tip
 
-Desative o acesso à interface web pela WAN. Acesse sempre via LAN ou por VPN. Use certificado TLS válido mesmo em redes internas para evitar ataques MITM.
+Disable web interface access from the WAN. Always access via LAN or VPN. Use a valid TLS certificate even on internal networks to prevent MITM attacks.
 
-pfSense é uma das ferramentas mais completas da minha stack — uso em homelab e em clientes pequenos com excelentes resultados.
+pfSense is one of the most complete tools in my stack — I use it in my homelab and for small clients with excellent results.

@@ -1,28 +1,28 @@
 ---
-title: "Proteção de servidores Linux com UFW e Fail2Ban"
+title: "Linux server protection with UFW and Fail2Ban"
 date: 2026-06-26 00:00:00 -0300
-categories: [Segurança, Linux]
+categories: [Security, Linux]
 tags: [ufw, fail2ban, firewall, hardening, linux]
 ---
 
-UFW (Uncomplicated Firewall) combinado com Fail2Ban é uma das configurações mais eficientes para proteger servidores Linux. O UFW gerencia as regras de firewall e o Fail2Ban monitora logs e bane automaticamente IPs com comportamento suspeito.
+UFW (Uncomplicated Firewall) combined with Fail2Ban is one of the most efficient configurations for protecting Linux servers. UFW manages firewall rules while Fail2Ban monitors logs and automatically bans IPs with suspicious behavior.
 
-## Instalação
+## Installation
 
 ```bash
 apt update && apt install fail2ban ufw -y
 ```
 
-## Configurando o UFW
+## Configuring UFW
 
-Defina a política padrão — bloquear tudo que entra, permitir tudo que sai:
+Set the default policy — block all incoming, allow all outgoing:
 
 ```bash
 ufw default deny incoming
 ufw default allow outgoing
 ```
 
-Libere apenas as portas necessárias:
+Allow only the necessary ports:
 
 ```bash
 ufw allow 22/tcp      # SSH
@@ -30,16 +30,16 @@ ufw allow 80/tcp      # HTTP
 ufw allow 443/tcp     # HTTPS
 ```
 
-Ative o firewall:
+Enable the firewall:
 
 ```bash
 ufw --force enable
 ufw status numbered
 ```
 
-## Configurando o Fail2Ban
+## Configuring Fail2Ban
 
-Crie o arquivo `/etc/fail2ban/jail.local` — nunca edite o `jail.conf` diretamente, pois ele é sobrescrito em atualizações:
+Create the `/etc/fail2ban/jail.local` file — never edit `jail.conf` directly, as it gets overwritten on updates:
 
 ```bash
 cat <<EOF > /etc/fail2ban/jail.local
@@ -125,93 +125,93 @@ bantime  = -1
 EOF
 ```
 
-### Parâmetros importantes
+### Key parameters
 
-| Parâmetro | Valor | Descrição |
+| Parameter | Value | Description |
 |---|---|---|
-| `bantime = -1` | Permanente | IP banido indefinidamente |
-| `findtime = 10m` | 10 minutos | Janela de tempo para contar tentativas |
-| `maxretry = 5` | 5 tentativas | Falhas antes do banimento |
-| `backend = systemd` | systemd | Fonte de logs |
-| `banaction = ufw` | UFW | Integração direta com o firewall |
+| `bantime = -1` | Permanent | IP banned indefinitely |
+| `findtime = 10m` | 10 minutes | Time window to count attempts |
+| `maxretry = 5` | 5 attempts | Failures before banning |
+| `backend = systemd` | systemd | Log source |
+| `banaction = ufw` | UFW | Direct integration with the firewall |
 
-## Filtros personalizados
+## Custom filters
 
-Crie filtros para detectar padrões específicos de ataque:
+Create filters to detect specific attack patterns:
 
 ```bash
-# Proteção contra DoS no Nginx
+# DoS protection for Nginx
 cat <<EOF > /etc/fail2ban/filter.d/nginx-dos.conf
 [Definition]
 failregex = ^<HOST> -.*"(GET|POST|HEAD).*HTTP.*"$
 EOF
 
-# Bots maliciosos no Nginx
+# Malicious bots on Nginx
 cat <<EOF > /etc/fail2ban/filter.d/nginx-badbots.conf
 [Definition]
 failregex = ^<HOST> -.*"GET .* HTTP/.*" 403 .* "(?:Atomic_Email_Hunter|Jorgee|PycURL|libwww-perl|Whacker)"$
 EOF
 
-# Tentativas de acesso a scripts inexistentes
+# Attempts to access non-existent scripts
 cat <<EOF > /etc/fail2ban/filter.d/nginx-noscript.conf
 [Definition]
 failregex = ^<HOST> -.*"GET .*\.(?:php|asp|exe|pl|cgi) HTTP/.*" 404
 EOF
 
-# Tentativas de acesso a home directories
+# Home directory access attempts
 cat <<EOF > /etc/fail2ban/filter.d/nginx-nohome.conf
 [Definition]
 failregex = ^<HOST> -.*"GET /~.* HTTP/.*" 404
 EOF
 
-# Overflow no Apache
+# Apache overflow
 cat <<EOF > /etc/fail2ban/filter.d/apache-overflow.conf
 [Definition]
 failregex = ^\[\] \[error\] \[client <HOST>\] (?:request failed: URI too long|invalid request-line)
 EOF
 ```
 
-## Ativando e verificando
+## Enabling and verifying
 
 ```bash
 systemctl restart fail2ban
 systemctl enable fail2ban
 ```
 
-Verifique os jails ativos:
+Check active jails:
 
 ```bash
 fail2ban-client status
 ```
 
-Verifique um jail específico:
+Check a specific jail:
 
 ```bash
 fail2ban-client status sshd
 ```
 
-Verificar regras do UFW aplicadas:
+Check UFW rules applied:
 
 ```bash
 ufw status numbered
 ```
 
-## Comandos úteis do dia a dia
+## Useful day-to-day commands
 
 ```bash
-# Desbanir um IP manualmente
+# Manually unban an IP
 fail2ban-client set sshd unbanip <IP>
 
-# Ver IPs banidos atualmente
+# View currently banned IPs
 fail2ban-client get sshd banned
 
-# Testar um filtro antes de ativar
+# Test a filter before enabling
 fail2ban-regex /var/log/auth.log /etc/fail2ban/filter.d/sshd.conf
 
-# Recarregar configuração sem reiniciar
+# Reload configuration without restarting
 fail2ban-client reload
 ```
 
-## Sobre o `bantime = -1`
+## About `bantime = -1`
 
-Banimento permanente (`-1`) é agressivo mas eficaz para SSH. Combine com a jail `recidive` para banir IPs que insistem mesmo após múltiplos banimentos temporários. Mantenha sempre um IP de gerência na lista `ignoreip` para não se bloquear do próprio servidor.
+Permanent banning (`-1`) is aggressive but effective for SSH. Combine it with the `recidive` jail to ban IPs that persist even after multiple temporary bans. Always keep a management IP in the `ignoreip` list to avoid locking yourself out of your own server.

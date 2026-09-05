@@ -1,22 +1,22 @@
 ---
 layout: page
-title: Sobre
+title: About
 permalink: /about/
 ---
 
-Olá, sou **Nícolas Brandão** — especialista em infraestrutura de redes e segurança, com foco em conectividade, virtualização e alta disponibilidade.
+Hi, I'm **Nícolas Brandão** — a network infrastructure and security specialist focused on connectivity, virtualization and high availability.
 
-Este espaço reúne tutoriais, pesquisas e anotações técnicas que produzo ao longo da minha trajetória. O objetivo é documentar o que aprendo e compartilhar com quem está na mesma área.
+This space brings together tutorials, research and technical notes I produce throughout my career. The goal is to document what I learn and share it with others in the field.
 
-## Áreas de interesse
+## Areas of interest
 
-- Redes corporativas (switching, routing, BGP, OSPF)
-- Segurança de perímetro (firewall, VPN, IDS/IPS)
-- Virtualização e homelab (Proxmox, KVM, LXC)
-- Monitoramento de infraestrutura (Zabbix, SNMP)
-- Linux e automação
+- Corporate networking (switching, routing, BGP, OSPF)
+- Perimeter security (firewall, VPN, IDS/IPS)
+- Virtualization and homelab (Proxmox, KVM, LXC)
+- Infrastructure monitoring (Zabbix, SNMP)
+- Linux and automation
 
-## Contato
+## Contact
 
-- Email: nicolasbrandaoc@icloud.com
 - GitHub: [github.com/nicolasbrandaoc](https://github.com/nicolasbrandaoc)
+- LinkedIn: [linkedin.com/in/nicolasbrandaoc](https://www.linkedin.com/in/nicolasbrandaoc)

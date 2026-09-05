@@ -1,22 +1,22 @@
 ---
-title: "Montando um homelab com Proxmox VE"
+title: "Building a homelab with Proxmox VE"
 date: 2026-06-11 00:00:00 -0300
-categories: [Virtualização, Homelab]
-tags: [proxmox, virtualização, homelab, kvm]
+categories: [Virtualization, Homelab]
+tags: [proxmox, virtualization, homelab, kvm]
 ---
 
-Proxmox VE é uma plataforma open-source de virtualização baseada em KVM e LXC. Com interface web completa e suporte a clustering, é ideal para homelabs e ambientes de produção de pequeno porte.
+Proxmox VE is an open-source virtualization platform based on KVM and LXC. With a complete web interface and clustering support, it's ideal for homelabs and small production environments.
 
-## KVM vs LXC: qual usar?
+## KVM vs LXC: which one to use?
 
-**KVM (VMs):** isolamento completo, qualquer SO, mais pesado em recursos.  
-**LXC (containers):** compartilha o kernel do host, muito mais leve, ideal para serviços Linux.
+**KVM (VMs):** full isolation, any OS, heavier on resources.  
+**LXC (containers):** shares the host kernel, much lighter, ideal for Linux services.
 
-Regra geral: use LXC para serviços simples (DNS, proxy, monitoramento) e KVM para sistemas completos (Windows, pfSense, appliances).
+General rule: use LXC for simple services (DNS, proxy, monitoring) and KVM for full systems (Windows, pfSense, appliances).
 
-## Configuração de rede no Proxmox
+## Network configuration in Proxmox
 
-O Proxmox usa bridges Linux. Estrutura típica para um ambiente com VLANs:
+Proxmox uses Linux bridges. Typical setup for an environment with VLANs:
 
 ```
 /etc/network/interfaces
@@ -32,25 +32,25 @@ iface vmbr0 inet static
     bridge-vids 2-4094
 ```
 
-## Armazenamento
+## Storage
 
-Opções nativas do Proxmox:
+Native Proxmox storage options:
 
-| Tipo | Uso ideal |
+| Type | Best use |
 |---|---|
-| LVM-Thin | VMs e containers locais |
-| ZFS | Alta performance + snapshots |
-| NFS/CIFS | Armazenamento compartilhado |
-| Ceph | Cluster distribuído |
+| LVM-Thin | Local VMs and containers |
+| ZFS | High performance + snapshots |
+| NFS/CIFS | Shared storage |
+| Ceph | Distributed cluster |
 
-## Snapshots e backups
+## Snapshots and backups
 
 ```bash
 # Snapshot via CLI
-qm snapshot <vmid> <nome> --description "antes da atualização"
+qm snapshot <vmid> <name> --description "before update"
 
-# Backup agendado via vzdump
+# Scheduled backup via vzdump
 vzdump <vmid> --storage local --mode snapshot --compress zstd
 ```
 
-Proxmox virou o coração do meu homelab — rodo pfSense, Pi-hole, Zabbix, e diversas VMs de laboratório em um único servidor.
+Proxmox has become the heart of my homelab — I run pfSense, Pi-hole, Zabbix and various lab VMs on a single server.
