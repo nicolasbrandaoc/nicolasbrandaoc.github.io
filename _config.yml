@@ -1,11 +1,11 @@
 theme: jekyll-theme-chirpy
 
-lang: pt-BR
+lang: en
 timezone: America/Sao_Paulo
 
 title: Nícolas Brandão
-tagline: Infraestrutura de redes, segurança e tecnologia.
-description: Tutoriais e pesquisas sobre infraestrutura de redes, segurança e virtualização.
+tagline: Network infrastructure, security and technology.
+description: Tutorials and research on network infrastructure, security and virtualization.
 
 url: "https://nicolasbrandaoc.github.io"
 
@@ -43,6 +43,15 @@ collections:
   tabs:
     output: true
     sort_by: order
+  ccna:
+    output: true
+    sort_by: order
+  ccnp:
+    output: true
+    sort_by: order
+  ccie:
+    output: true
+    sort_by: order
 
 defaults:
   - scope:
@@ -63,6 +72,27 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+  - scope:
+      path: ""
+      type: ccna
+    values:
+      layout: page
+      permalink: /ccna/:title/
+      toc: true
+  - scope:
+      path: ""
+      type: ccnp
+    values:
+      layout: page
+      permalink: /ccnp/:title/
+      toc: true
+  - scope:
+      path: ""
+      type: ccie
+    values:
+      layout: page
+      permalink: /ccie/:title/
+      toc: true
 
 sass:
   style: compressed
