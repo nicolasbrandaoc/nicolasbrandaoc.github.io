@@ -1,13 +1,13 @@
 ---
-title: "Hardening de servidores Linux: guia prático"
+title: "Linux server hardening: a practical guide"
 date: 2026-06-24 00:00:00 -0300
-categories: [Segurança, Linux]
-tags: [hardening, linux, segurança, ssh]
+categories: [Security, Linux]
+tags: [hardening, linux, security, ssh]
 ---
 
-Hardening é o processo de reduzir a superfície de ataque de um sistema. Um servidor Linux recém-instalado tem diversas configurações padrão inseguras. Este guia cobre as medidas essenciais.
+Hardening is the process of reducing the attack surface of a system. A freshly installed Linux server has several insecure default configurations. This guide covers the essential measures.
 
-## 1. Atualize o sistema imediatamente
+## 1. Update the system immediately
 
 ```bash
 apt update && apt upgrade -y
@@ -15,31 +15,31 @@ apt install unattended-upgrades
 dpkg-reconfigure --priority=low unattended-upgrades
 ```
 
-## 2. SSH seguro
+## 2. Secure SSH
 
 ```ini
 # /etc/ssh/sshd_config
 
-Port 2222                    # troque a porta padrão
-PermitRootLogin no           # nunca faça login como root
-PasswordAuthentication no    # apenas chaves criptográficas
+Port 2222                    # change the default port
+PermitRootLogin no           # never log in as root
+PasswordAuthentication no    # use cryptographic keys only
 PubkeyAuthentication yes
 MaxAuthTries 3
 ClientAliveInterval 300
 ClientAliveCountMax 2
-AllowUsers seunome           # whitelist de usuários
+AllowUsers youruser          # user whitelist
 ```
 
 ```bash
 systemctl restart sshd
 ```
 
-## 3. Firewall com UFW
+## 3. Firewall with UFW
 
 ```bash
 ufw default deny incoming
 ufw default allow outgoing
-ufw allow 2222/tcp    # SSH na nova porta
+ufw allow 2222/tcp    # SSH on the new port
 ufw enable
 ```
 
@@ -56,20 +56,20 @@ maxretry = 3
 bantime = 3600
 ```
 
-## 5. Remova serviços desnecessários
+## 5. Remove unnecessary services
 
 ```bash
 systemctl list-units --type=service --state=running
-systemctl disable --now <serviço-desnecessário>
+systemctl disable --now <unnecessary-service>
 ```
 
-## 6. Auditoria com Lynis
+## 6. Audit with Lynis
 
 ```bash
 apt install lynis
 lynis audit system
 ```
 
-O Lynis gera um relatório com score e recomendações específicas para o sistema. É uma excelente baseline para auditar qualquer servidor Linux.
+Lynis generates a report with a score and specific recommendations for the system. It's an excellent baseline for auditing any Linux server.
 
-Hardening não é um evento único — revise as configurações periodicamente e monitore logs com ferramentas como Fail2ban, Logwatch ou OSSEC.
+Hardening is not a one-time event — review configurations periodically and monitor logs with tools like Fail2ban, Logwatch or OSSEC.

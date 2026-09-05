@@ -1,29 +1,29 @@
 ---
-title: "OSPF: fundamentos do protocolo de roteamento de estado de enlace"
+title: "OSPF: fundamentals of the link-state routing protocol"
 date: 2026-06-05 00:00:00 -0300
-categories: [Redes, Routing]
-tags: [ospf, routing, protocolo]
+categories: [Networking, Routing]
+tags: [ospf, routing, protocol]
 ---
 
-OSPF (Open Shortest Path First) é um protocolo de roteamento dinâmico link-state amplamente usado em redes corporativas. Diferente de protocolos distance-vector como RIP, o OSPF mantém um mapa completo da topologia da rede.
+OSPF (Open Shortest Path First) is a link-state dynamic routing protocol widely used in corporate networks. Unlike distance-vector protocols like RIP, OSPF maintains a complete map of the network topology.
 
-## Como o OSPF funciona
+## How OSPF works
 
-1. Roteadores trocam **Hello packets** para descobrir vizinhos
-2. Estabelecem adjacências e elegem DR/BDR em redes multi-acesso
-3. Inundam **LSAs** (Link State Advertisements) pela área
-4. Cada roteador constrói um **LSDB** (Link State Database)
-5. Rodam o algoritmo **Dijkstra (SPF)** para calcular a melhor rota
+1. Routers exchange **Hello packets** to discover neighbors
+2. They establish adjacencies and elect DR/BDR on multi-access networks
+3. They flood **LSAs** (Link State Advertisements) across the area
+4. Each router builds an **LSDB** (Link State Database)
+5. They run the **Dijkstra (SPF)** algorithm to calculate the best route
 
-## Áreas OSPF
+## OSPF areas
 
-O OSPF usa áreas para limitar a propagação de LSAs:
+OSPF uses areas to limit LSA propagation:
 
-- **Área 0 (backbone):** obrigatória, todas as outras áreas se conectam a ela
-- **Stub areas:** não recebem LSAs externos
-- **NSSA:** variação da stub que aceita rotas externas redistributídas
+- **Area 0 (backbone):** mandatory — all other areas connect to it
+- **Stub areas:** do not receive external LSAs
+- **NSSA:** a stub variant that accepts redistributed external routes
 
-## Configuração básica
+## Basic configuration
 
 ```bash
 Router(config)# router ospf 1
@@ -31,13 +31,13 @@ Router(config-router)# network 192.168.1.0 0.0.0.255 area 0
 Router(config-router)# network 10.0.0.0 0.0.0.3 area 0
 ```
 
-## Métricas e custo
+## Metrics and cost
 
-O OSPF usa **custo** como métrica, calculado com base na largura de banda da interface:
+OSPF uses **cost** as its metric, calculated based on interface bandwidth:
 
 ```
-Custo = Referência de banda / Banda da interface
-Custo = 100 Mbps / 10 Mbps = 10
+Cost = Reference bandwidth / Interface bandwidth
+Cost = 100 Mbps / 10 Mbps = 10
 ```
 
-OSPF é essencial para ambientes de médio e grande porte que exigem convergência rápida e controle fino de rotas.
+OSPF is essential for medium and large environments that require fast convergence and fine-grained route control.

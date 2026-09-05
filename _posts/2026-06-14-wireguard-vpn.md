@@ -1,27 +1,27 @@
 ---
-title: "WireGuard: VPN moderna, rápida e simples de configurar"
+title: "WireGuard: modern, fast and simple VPN"
 date: 2026-06-14 00:00:00 -0300
-categories: [Segurança, VPN]
-tags: [wireguard, vpn, segurança, tunneling]
+categories: [Security, VPN]
+tags: [wireguard, vpn, security, tunneling]
 ---
 
-WireGuard é um protocolo VPN moderno que se destaca pela simplicidade, performance e código enxuto (~4000 linhas vs ~400k do OpenVPN). Está integrado ao kernel Linux desde a versão 5.6.
+WireGuard is a modern VPN protocol that stands out for its simplicity, performance and lean codebase (~4,000 lines vs ~400k for OpenVPN). It has been integrated into the Linux kernel since version 5.6.
 
-## Por que WireGuard?
+## Why WireGuard?
 
-- **Performance:** usa ChaCha20 para criptografia, muito mais rápido que AES em hardware sem aceleração
-- **Latência:** handshake em 1-RTT
-- **Simplicidade:** configuração em poucos arquivos texto
-- **Segurança:** surface de ataque mínima, sem negociação de algoritmos
+- **Performance:** uses ChaCha20 for encryption, much faster than AES on hardware without acceleration
+- **Latency:** 1-RTT handshake
+- **Simplicity:** configuration in a few plain text files
+- **Security:** minimal attack surface, no algorithm negotiation
 
-## Instalação no Ubuntu/Debian
+## Installation on Ubuntu/Debian
 
 ```bash
 apt install wireguard
 wg genkey | tee privatekey | wg pubkey > publickey
 ```
 
-## Configuração do servidor
+## Server configuration
 
 ```ini
 # /etc/wireguard/wg0.conf
@@ -29,36 +29,36 @@ wg genkey | tee privatekey | wg pubkey > publickey
 [Interface]
 Address = 10.10.0.1/24
 ListenPort = 51820
-PrivateKey = <chave-privada-do-servidor>
+PrivateKey = <server-private-key>
 
 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 
 [Peer]
-PublicKey = <chave-pública-do-cliente>
+PublicKey = <client-public-key>
 AllowedIPs = 10.10.0.2/32
 ```
 
-## Configuração do cliente
+## Client configuration
 
 ```ini
 [Interface]
 Address = 10.10.0.2/24
-PrivateKey = <chave-privada-do-cliente>
+PrivateKey = <client-private-key>
 DNS = 1.1.1.1
 
 [Peer]
-PublicKey = <chave-pública-do-servidor>
-Endpoint = meu-servidor.com:51820
+PublicKey = <server-public-key>
+Endpoint = my-server.com:51820
 AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 25
 ```
 
-## Ativar e gerenciar
+## Enable and manage
 
 ```bash
 systemctl enable --now wg-quick@wg0
-wg show   # status da interface
+wg show   # interface status
 ```
 
-WireGuard substituiu completamente o OpenVPN no meu ambiente — latência menor e configuração muito mais limpa.
+WireGuard completely replaced OpenVPN in my environment — lower latency and a much cleaner configuration.
